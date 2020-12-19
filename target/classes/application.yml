@@ -1,0 +1,98 @@
+server:
+    # https 加密端口号 443
+    port: 9090
+#    ssl:
+#        # SSL 证书路径，classpath 必不可少
+#        key-store: classpath:myf.cool.jks
+        # SSL 证书密码
+#        key-store-password: a5vk6jlk60
+        # 证书类型
+#        key-store-type: JKS
+#    max-http-header-size: 1024000
+#condition:
+#    http2https: true
+#http:
+#    port: 80
+spring:
+    profiles:
+        active: dev
+    devtools:
+        enabled: true
+    cache:
+        type: ehcache
+        ehcache:
+            config: classpath:ehcache.xml
+    http:
+        encoding:
+            charset: UTF-8
+            force: true
+            enabled: true
+    servlet:
+        multipart:
+            max-file-size: 10MB
+            max-request-size: 10MB
+    freemarker:
+        template-loader-path:
+        - classpath:/templates
+        - file:${site.location}/storage/templates
+        cache: false
+        check-template-location: true
+        request-context-attribute: request
+        charset: utf-8
+        suffix: .ftl
+        settings:
+            classic_compatible: true #处理空值
+            template_exception_handler: rethrow
+            template_update_delay: 0
+            datetime_format: yyyy-MM-dd HH:mm
+            number_format: 0.##
+            auto_import: /utils.ftl as utils
+    flyway:
+        enabled: false
+        baseline-on-migrate: true
+        encoding: UTF-8
+        locations: classpath:scripts/migration
+    data:
+        jpa:
+            repositories:
+                bootstrap-mode: deferred
+shiro:
+    web:
+        enabled: true
+    annotations:
+        enabled: false
+    loginUrl: /login
+    successUrl: /index
+    unauthorizedUrl: /error/reject.html
+    sessionManager:
+        cookie:
+            maxAge: 604800
+    rememberMeManager:
+        cookie:
+            maxAge: 604800
+
+logging:
+    config: classpath:logback-spring.xml
+
+# site.options.theme: [default|classic]
+site:
+    version: 4.0.0
+    location: ${user.dir}
+    controls:
+        # 注册开关
+        register: false
+        # 注册开启邮箱验证
+        register_email_validate: true
+        # 发布文章开关
+        post: true
+        # 评论开关
+        comment: false
+    options:
+        theme: classic
+        site_logo: /dist/images/logo/catLogo.png
+        site_favicon: /dist/images/logo/catLogo.png
+        storage_max_width: 800
+        storage_limit_size: 2
+        editor: markdown
+        thumbnail_channel_size: 200x112
+        thumbnail_post_size: 360x200
